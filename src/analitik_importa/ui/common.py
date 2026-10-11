@@ -55,6 +55,22 @@ CSS = """
 
 
 NO_TRANSLATE_JS = """<script>
+if (!window.__analitikDomGuard) {
+  window.__analitikDomGuard = true;
+  const removeChild = Node.prototype.removeChild;
+  Node.prototype.removeChild = function (child) {
+    if (child.parentNode !== this) {
+      if (child.parentNode) return removeChild.call(child.parentNode, child);
+      return child;
+    }
+    return removeChild.apply(this, arguments);
+  };
+  const insertBefore = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function (node, ref) {
+    if (ref && ref.parentNode !== this) return insertBefore.call(this, node, null);
+    return insertBefore.apply(this, arguments);
+  };
+}
 const root = document.documentElement;
 root.lang = "ru";
 root.setAttribute("translate", "no");
@@ -69,7 +85,8 @@ if (!document.querySelector('meta[name="google"]')) {
 
 
 def inject_css() -> None:
-    # Browser auto-translate rewrites React-managed DOM and crashes the app with "removeChild" errors.
+    # Browser auto-translate (Chrome/Yandex) swaps React-managed text nodes for <font> wrappers;
+    # React then crashes with "removeChild/insertBefore: not a child of this node".
     st.html(NO_TRANSLATE_JS, unsafe_allow_javascript=True)
     st.markdown(CSS, unsafe_allow_html=True)
 
