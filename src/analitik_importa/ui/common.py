@@ -54,7 +54,23 @@ CSS = """
 """
 
 
+NO_TRANSLATE_JS = """<script>
+const root = document.documentElement;
+root.lang = "ru";
+root.setAttribute("translate", "no");
+root.classList.add("notranslate");
+if (!document.querySelector('meta[name="google"]')) {
+  const m = document.createElement("meta");
+  m.name = "google";
+  m.content = "notranslate";
+  document.head.appendChild(m);
+}
+</script>"""
+
+
 def inject_css() -> None:
+    # Browser auto-translate rewrites React-managed DOM and crashes the app with "removeChild" errors.
+    st.html(NO_TRANSLATE_JS, unsafe_allow_javascript=True)
     st.markdown(CSS, unsafe_allow_html=True)
 
 
