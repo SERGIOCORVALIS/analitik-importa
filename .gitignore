@@ -8,4 +8,7 @@ dist/
 build/
 reports/
 data/
+.agents/
+.claude/
+scratch_*.py
 .DS_Store
