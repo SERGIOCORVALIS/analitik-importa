@@ -28,6 +28,7 @@ def status_line() -> None:
     s = settings()
     items = [
         ("Ozon", bool(s.ozon_client_id and s.ozon_api_key)),
+        ("Реклама Ozon", bool(s.ozon_perf_client_id and s.ozon_perf_client_secret)),
         ("Wildberries", bool(s.wb_api_token)),
         ("MPSTATS", bool(s.mpstats_token) and not s.use_api_stubs),
         ("eBay", bool(s.ebay_client_id and s.ebay_client_secret) and not s.use_api_stubs),
@@ -57,17 +58,31 @@ def page_settings() -> None:
             ozon_id = c1.text_input("Client-Id", value=s.ozon_client_id)
             ozon_key = c2.text_input("API-ключ", value=s.ozon_api_key, type="password")
             st.caption("seller.ozon.ru → Настройки → Seller API → создать ключ (роль Admin read only достаточно).")
+            st.markdown("##### Ozon Performance API — реклама")
+            c1, c2 = st.columns([1, 2])
+            perf_id = c1.text_input("Client ID", value=s.ozon_perf_client_id,
+                                    placeholder="…@advertising.performance.ozon.ru")
+            perf_secret = c2.text_input("Client Secret", value=s.ozon_perf_client_secret, type="password")
+            st.caption("seller.ozon.ru → Продвижение → Performance API → создать сервисный аккаунт. "
+                       "Даёт управление кампаниями, ставками и рекламную статистику.")
             st.markdown("##### Wildberries API")
             wb_token = st.text_input("Токен WB", value=s.wb_api_token, type="password")
             st.caption("seller.wildberries.ru → Настройки → Доступ к API. Категории: Контент, Статистика, Аналитика, "
                        "Цены и скидки; режим «Только на чтение».")
             if st.form_submit_button("Сохранить", type="primary"):
-                save({"OZON_CLIENT_ID": ozon_id.strip(), "OZON_API_KEY": ozon_key.strip(), "WB_API_TOKEN": wb_token.strip()})
-        c1, c2 = st.columns(2)
+                save({"OZON_CLIENT_ID": ozon_id.strip(), "OZON_API_KEY": ozon_key.strip(),
+                      "OZON_PERF_CLIENT_ID": perf_id.strip(), "OZON_PERF_CLIENT_SECRET": perf_secret.strip(),
+                      "WB_API_TOKEN": wb_token.strip()})
+        c1, c3, c2 = st.columns(3)
         if c1.button("Проверить Ozon", width="stretch", disabled=not (s.ozon_client_id and s.ozon_api_key)):
             from analitik_importa.clients.ozon_seller import OzonSellerClient
 
             check("Ozon", lambda: (lambda r: f"{r['company']}, товаров: {r['products']}")(OzonSellerClient(s).check()))
+        if c3.button("Проверить рекламу Ozon", width="stretch", disabled=not (s.ozon_perf_client_id and s.ozon_perf_client_secret)):
+            from analitik_importa.clients.ozon_performance import OzonPerformanceClient
+
+            check("Ozon Performance", lambda: (lambda r: f"кампаний: {r['campaigns']}, активных: {r['running']}")(
+                OzonPerformanceClient(s).check()))
         if c2.button("Проверить Wildberries", width="stretch", disabled=not s.wb_api_token):
             from analitik_importa.clients.wb_seller import WbSellerClient
 

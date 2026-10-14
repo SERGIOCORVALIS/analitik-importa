@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     ozon_client_id: str = ""
     ozon_api_key: str = ""
 
+    # Ozon Performance API (реклама): seller.ozon.ru → Продвижение → Performance API → сервисный аккаунт.
+    ozon_perf_client_id: str = ""
+    ozon_perf_client_secret: str = ""
+
     wb_api_token: str = ""
 
     amazon_credential_id: str = ""
@@ -85,6 +89,22 @@ class Settings(BaseSettings):
                 "Ozon Seller API credentials missing: "
                 + ", ".join(missing)
                 + ". See seller.ozon.ru -> Настройки -> Seller API."
+            )
+
+    def require_ozon_performance(self) -> None:
+        missing = [
+            name
+            for name, value in (
+                ("OZON_PERF_CLIENT_ID", self.ozon_perf_client_id),
+                ("OZON_PERF_CLIENT_SECRET", self.ozon_perf_client_secret),
+            )
+            if not value.strip()
+        ]
+        if missing:
+            raise RuntimeError(
+                "Ozon Performance API credentials missing: "
+                + ", ".join(missing)
+                + ". seller.ozon.ru → Продвижение → Performance API → создать сервисный аккаунт."
             )
 
     def require_wb_seller(self) -> None:

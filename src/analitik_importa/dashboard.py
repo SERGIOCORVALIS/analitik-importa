@@ -5,6 +5,7 @@ from datetime import datetime
 import streamlit as st
 
 from analitik_importa.ui import nav
+from analitik_importa.ui.ads import page_ads
 from analitik_importa.ui.common import inject_css
 from analitik_importa.ui.finance import page_accounting, page_expenses
 from analitik_importa.ui.home import page_home
@@ -37,6 +38,7 @@ pages = {
     ],
     "Маркетплейсы": [
         p("ozon", page_ozon, "Ozon", ":material/storefront:"),
+        p("ads", page_ads, "Реклама Ozon", ":material/campaign:"),
         p("wb", page_wb, "Wildberries", ":material/storefront:"),
     ],
     "Финансы": [

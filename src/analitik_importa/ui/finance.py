@@ -132,6 +132,9 @@ def page_accounting() -> None:
         st.dataframe(mp_df, hide_index=True, width="stretch",
                      column_config={c: st.column_config.NumberColumn(format="%.0f") for c in mp_df.columns[1:]})
 
+    if s.ozon_perf_client_id and s.ozon_perf_client_secret:
+        ads_block(s.ozon_perf_client_id, d1, d2, pnl.revenue)
+
     st.markdown("#### Деньги за период")
     cash = pd.DataFrame(
         [
@@ -145,6 +148,32 @@ def page_accounting() -> None:
     )
     st.dataframe(cash, hide_index=True, width="stretch", column_config={"Сумма, ₽": st.column_config.NumberColumn(format="%.0f")})
     st.caption("Денежный поток отличается от прибыли: закупка уходит деньгами сразу, а в себестоимость попадает по мере продаж.")
+
+
+def ads_block(perf_id: str, d1: date, d2: date, revenue: float) -> None:
+    from analitik_importa.ui.ads import load_daily
+
+    try:
+        rows = load_daily(perf_id, d1, d2)
+    except RuntimeError as exc:
+        st.warning(f"Реклама Ozon: {exc}")
+        return
+    spent = sum(r["spent"] for r in rows)
+    ads_rev = sum(r["orders_rub"] for r in rows)
+    st.markdown("#### Реклама Ozon")
+    kpi_row(
+        [
+            Kpi("Расход на рекламу", fmt_rub(spent), "по данным Performance API", "#005bff"),
+            Kpi("Выручка с рекламы", fmt_rub(ads_rev), f"ДРР {spent / ads_rev * 100:.1f}%" if ads_rev else "заказов с рекламы нет",
+                "#10b981"),
+            Kpi("Доля рекламы в выручке", f"{spent / revenue * 100:.1f}%" if revenue else "—", "расход ÷ вся выручка", "#f59e0b"),
+        ]
+    )
+    st.caption("В прибыль этот блок отдельно не вычитается. Реклама, оплаченная из выплат Ozon (оплата за заказ — всегда), "
+               "уже входит в «Удержания МП». Если пополняете рекламный кабинет отдельно с карты или по счёту — "
+               "внесите пополнение в «Расходы» с категорией «Реклама».")
+    if st.button("Открыть рекламу Ozon"):
+        st.switch_page(nav.page("ads"))
 
 
 def page_expenses() -> None:
