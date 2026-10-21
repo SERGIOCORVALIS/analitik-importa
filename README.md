@@ -115,6 +115,6 @@ run_analyze.bat "powerbank" "Электроника/Powerbanks" "Электро�
 
 ## Лицензия / License
 
-Код является проприетарным (все права защищены). Правообладатель: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). См. [LICENSE](LICENSE) и [NOTICE](NOTICE).
+Единственный и исключительный правообладатель: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). Код проприетарный; любые действия с ним (копирование, изменение, использование, публикация, распространение, форк, производные произведения, продажа, сублицензирование) — только с его предварительного письменного согласия. Публичная видимость репозитория не даёт лицензии. См. [LICENSE](LICENSE) и [NOTICE](NOTICE).
 
-This code is proprietary (all rights reserved). Copyright holder: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Sole and exclusive copyright holder: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). Proprietary code; any action with it (copying, modifying, using, publishing, distributing, forking, derivative works, selling, sublicensing) requires his prior written consent. Public visibility grants no license. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
