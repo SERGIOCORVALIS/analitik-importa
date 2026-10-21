@@ -112,3 +112,9 @@ run_analyze.bat "powerbank" "Электроника/Powerbanks" "Электро�
 3. MPSTATS — после подписки «Внешняя аналитика»
 4. Amazon Creators — после Associates credentials
 5. `analyze` + scoring — объединяет источники
+
+## Лицензия / License
+
+Код является проприетарным (все права защищены). Правообладатель: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). См. [LICENSE](LICENSE) и [NOTICE](NOTICE).
+
+This code is proprietary (all rights reserved). Copyright holder: Панков Сергей Владимирович (Sergey Vladimirovich Pankov). See [LICENSE](LICENSE) and [NOTICE](NOTICE).
