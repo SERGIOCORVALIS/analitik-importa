@@ -55,6 +55,7 @@ current = st.navigation(pages, position="sidebar", expanded=True)
 
 with st.sidebar:
     st.divider()
+    st.caption("Панков Сергей Владимирович, правообладатель")
     st.markdown("**📦 Analitik Importa**")
     st.caption(f"Китай → Ozon · Wildberries · ЯМ  \nОбновлено: {datetime.now().strftime('%d.%m.%Y %H:%M')}")
 
