@@ -4,6 +4,7 @@ from datetime import datetime
 
 import streamlit as st
 
+from analitik_importa.config import ROOT_DIR
 from analitik_importa.ui import nav
 from analitik_importa.ui.ads import page_ads
 from analitik_importa.ui.common import inject_css
@@ -14,8 +15,24 @@ from analitik_importa.ui.research import page_analyze, page_autoscan, page_econ,
 from analitik_importa.ui.settings_page import page_settings
 from analitik_importa.ui.stock import page_catalog, page_inventory, page_moves, page_plan, page_purchases
 
-st.set_page_config(page_title="Analitik Importa", page_icon="📦", layout="wide", initial_sidebar_state="expanded")
+ASSETS_DIR = ROOT_DIR / "assets"
+LOGO_PATH = next((p for p in (ASSETS_DIR / "logo.png", ASSETS_DIR / "logo.svg") if p.is_file()), None)
+PAGE_ICON = next(
+    (p for p in (ASSETS_DIR / "favicon-32.png", ASSETS_DIR / "favicon.ico", LOGO_PATH) if p and p.is_file()),
+    None,
+)
+
+st.set_page_config(
+    page_title="Analitik Importa",
+    page_icon=str(PAGE_ICON) if PAGE_ICON else "📦",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 inject_css()
+
+# st.logo pins the mark at the very top of the sidebar (above navigation).
+if LOGO_PATH is not None:
+    st.logo(str(LOGO_PATH), size="large", icon_image=str(PAGE_ICON) if PAGE_ICON else None)
 
 
 def p(key: str, fn, title: str, icon: str, default: bool = False) -> st.Page:

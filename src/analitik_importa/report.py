@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import base64
 import html
 import json
 import re
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from xml.dom import minidom
 
@@ -16,6 +18,26 @@ def reports_dir() -> Path:
     path = ROOT_DIR / "reports"
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+@lru_cache(maxsize=1)
+def favicon_link_tags() -> str:
+    """Embed favicon as data URIs so standalone HTML reports work offline."""
+    assets = ROOT_DIR / "assets"
+    tags: list[str] = []
+    mapping = [
+        ("favicon.ico", "image/x-icon", None),
+        ("favicon-32.png", "image/png", "32x32"),
+        ("favicon-16.png", "image/png", "16x16"),
+    ]
+    for name, mime, sizes in mapping:
+        path = assets / name
+        if not path.is_file():
+            continue
+        data = base64.b64encode(path.read_bytes()).decode("ascii")
+        size_attr = f' sizes="{sizes}"' if sizes else ""
+        tags.append(f'<link rel="icon" type="{mime}"{size_attr} href="data:{mime};base64,{data}" />')
+    return "\n  ".join(tags)
 
 
 def slugify(text: str) -> str:
@@ -288,12 +310,14 @@ def niche_report_to_html(report: NicheReport) -> str:
     title = html.escape(report.query.keywords)
     generated = html.escape(report.generated_at.isoformat())
 
+    icons = favicon_link_tags()
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Отчёт: {title}</title>
+  {icons}
   <style>
     :root {{
       --bg: #f4f7fb;
