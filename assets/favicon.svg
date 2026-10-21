@@ -1,10 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="1" y="1" width="30" height="30" rx="8" fill="#0F172A"/>
-  <rect x="5" y="19" width="4" height="7" rx="1" fill="#0EA5E9" opacity="0.7"/>
-  <rect x="11" y="14" width="4" height="12" rx="1" fill="#0EA5E9" opacity="0.85"/>
-  <rect x="17" y="9" width="4" height="17" rx="1" fill="#22D3EE"/>
-  <rect x="23" y="5" width="4" height="21" rx="1" fill="#38BDF8"/>
-  <polyline fill="none" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="6,21 12,15 18,10 25,5"/>
-  <circle cx="25" cy="5" r="1.6" fill="#F8FAFC"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+  <radialGradient id="bgGlow" cx="46%" cy="36%" r="80%">
+    <stop offset="0" stop-color="#123E72"/>
+    <stop offset="0.58" stop-color="#0B1B36"/>
+    <stop offset="1" stop-color="#0F172A"/>
+  </radialGradient>
+  <radialGradient id="ocean" cx="34%" cy="24%" r="80%">
+    <stop offset="0" stop-color="#25D4FF"/>
+    <stop offset="0.32" stop-color="#087BE5"/>
+    <stop offset="0.74" stop-color="#06418E"/>
+    <stop offset="1" stop-color="#071D43"/>
+  </radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF0A3"/>
+    <stop offset="0.35" stop-color="#FFD15A"/>
+    <stop offset="0.72" stop-color="#F5A623"/>
+    <stop offset="1" stop-color="#B96A12"/>
+  </linearGradient>
+  <linearGradient id="bar" x1="0" y1="0" x2="0.8" y2="1">
+    <stop offset="0" stop-color="#71F0FF"/>
+    <stop offset="0.5" stop-color="#0DBBFF"/>
+    <stop offset="1" stop-color="#0755C8"/>
+  </linearGradient>
+  <clipPath id="globeClip"><circle cx="235" cy="228" r="151"/></clipPath>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="9"/>
+  </filter>
+</defs>
+<rect width="512" height="512" fill="url(#bgGlow)"/>
+<!-- subtle technical halo -->
+<circle cx="235" cy="228" r="174" fill="none" stroke="#0879D9" stroke-opacity=".22" stroke-width="2"/>
+<circle cx="235" cy="228" r="160" fill="#13BDFB" opacity=".12" filter="url(#glow)"/>
+<!-- planet -->
+<circle cx="235" cy="228" r="151" fill="url(#ocean)" stroke="#32D9FF" stroke-width="4"/>
+<g clip-path="url(#globeClip)" fill="none" stroke="#70DFFF" stroke-opacity=".42" stroke-width="2">
+  <ellipse cx="235" cy="228" rx="149" ry="47"/>
+  <ellipse cx="235" cy="228" rx="149" ry="91"/>
+  <ellipse cx="235" cy="228" rx="48" ry="150"/>
+  <ellipse cx="235" cy="228" rx="96" ry="150"/>
+  <path d="M72 228H398 M90 170H380 M90 286H380" stroke-opacity=".18"/>
+</g>
+<!-- abstract continents -->
+<g clip-path="url(#globeClip)" fill="#052A63" stroke="#1DA9EF" stroke-width="2" stroke-linejoin="round" opacity=".94">
+  <path d="M151 126l26-10 18 8 4 17-15 12-4 17-15 8-7 18-19-7-9-21 8-15-6-17z"/>
+  <path d="M206 133l26-12 27 8 15 17 28 4 16 18-11 12-24-1-8 17-20 8-9 23-17 6-12-15-1-23-19-7-9-17 11-14z"/>
+  <path d="M239 230l23 8 11 22-7 27-15 21-7 32-14 20-10-22-3-28-12-17 4-27 12-13 1-17z"/>
+  <path d="M320 245l22-5 20 13 11 21-9 19-24 2-8-13-17-8z"/>
+</g>
+<!-- gold orbital sweep -->
+<path d="M105 384C49 328 45 220 83 142C105 97 139 69 176 58" fill="none" stroke="#F7B52A" stroke-opacity=".22" stroke-width="22" stroke-linecap="round"/>
+<path d="M105 384C49 328 45 220 83 142C105 97 139 69 176 58" fill="none" stroke="url(#gold)" stroke-width="11" stroke-linecap="round"/>
+<!-- graph bars in foreground -->
+<g stroke="#0A8CDE" stroke-width="2">
+  <rect x="265" y="333" width="42" height="88" rx="5" fill="url(#bar)"/>
+  <rect x="316" y="294" width="42" height="127" rx="5" fill="url(#bar)"/>
+  <rect x="367" y="252" width="42" height="169" rx="5" fill="url(#bar)"/>
+  <rect x="418" y="211" width="42" height="210" rx="5" fill="url(#bar)"/>
+</g>
+<path d="M268 324C311 298 350 270 389 224" fill="none" stroke="#FFCC4D" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" opacity=".18"/>
+<path d="M268 324C311 298 350 270 389 224" fill="none" stroke="url(#gold)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M369 223L414 171L407 230L391 216L375 241Z" fill="url(#gold)" stroke="#FFE9A2" stroke-width="2" stroke-linejoin="round"/>
+<!-- container vessel silhouette -->
+<g stroke-linejoin="round">
+  <path d="M69 372H248L225 408Q221 416 205 416H91Q78 412 69 372Z" fill="#05152B" stroke="#35CFFF" stroke-width="3"/>
+  <path d="M90 350H119V372H90Z" fill="#F5A623" stroke="#FFE08A" stroke-width="1.5"/>
+  <path d="M121 342H151V372H121Z" fill="#10BDFB" stroke="#A5F5FF" stroke-width="1.5"/>
+  <path d="M153 349H183V372H153Z" fill="#F5A623" stroke="#FFE08A" stroke-width="1.5"/>
+  <path d="M185 339H215V372H185Z" fill="#1289E9" stroke="#A5F5FF" stroke-width="1.5"/>
+  <path d="M96 334H113V350H96Z" fill="#DAF8FF" stroke="#7BDFFF" stroke-width="1.5"/>
+  <path d="M106 324V334 M101 328H111" stroke="#25D4FF" stroke-width="3"/>
+  <path d="M72 422Q100 430 124 422T177 422T225 422" fill="none" stroke="#14BDF8" stroke-width="4" stroke-linecap="round"/>
+</g>
+<!-- discreet initials plaque; omitted only on 16px favicon -->
+<rect x="184" y="447" width="144" height="47" rx="15" fill="#09172C" stroke="url(#gold)" stroke-width="2.5"/>
+<text x="256" y="478" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="3" fill="#FFE08A">С.П.</text>
 </svg>

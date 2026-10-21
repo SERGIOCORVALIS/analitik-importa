@@ -16,7 +16,8 @@ from analitik_importa.ui.settings_page import page_settings
 from analitik_importa.ui.stock import page_catalog, page_inventory, page_moves, page_plan, page_purchases
 
 ASSETS_DIR = ROOT_DIR / "assets"
-LOGO_PATH = next((p for p in (ASSETS_DIR / "logo.png", ASSETS_DIR / "logo.svg") if p.is_file()), None)
+LOGO_PATH = next((p for p in (ASSETS_DIR / "logo.png",) if p.is_file()), None)
+LOGO_WIDE_PATH = next((p for p in (ASSETS_DIR / "logo-horizontal.png",) if p.is_file()), None)
 PAGE_ICON = next(
     (p for p in (ASSETS_DIR / "favicon-32.png", ASSETS_DIR / "favicon.ico", LOGO_PATH) if p and p.is_file()),
     None,
@@ -32,7 +33,7 @@ inject_css()
 
 # st.logo pins the mark at the very top of the sidebar (above navigation).
 if LOGO_PATH is not None:
-    st.logo(str(LOGO_PATH), size="large", icon_image=str(PAGE_ICON) if PAGE_ICON else None)
+    st.logo(str(LOGO_WIDE_PATH or LOGO_PATH), size="large", icon_image=str(LOGO_PATH))
 
 
 def p(key: str, fn, title: str, icon: str, default: bool = False) -> st.Page:
