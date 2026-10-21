@@ -28,7 +28,13 @@ from analitik_importa.clients.public_web import (
 )
 from analitik_importa.config import Settings, get_settings
 from analitik_importa.models import Verdict
-from analitik_importa.report import VERDICT_BG, VERDICT_COLOR, VERDICT_RU, reports_dir
+from analitik_importa.report import (
+    VERDICT_BG,
+    VERDICT_COLOR,
+    VERDICT_RU,
+    favicon_link_tags,
+    reports_dir,
+)
 from analitik_importa.stats_util import price_stats
 
 WEIGHTS = {"demand_ru": 40, "demand_world": 20, "competition": 15, "economics": 25}
@@ -472,7 +478,9 @@ def scan_to_html(r: ScanResult) -> str:
 
     a = r.assumptions
     errors = "".join(f"<li>{e(x)}</li>" for x in r.errors)
+    icons = favicon_link_tags()
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"/>
+{icons}
 <title>Автопоиск товаров — {when}</title>
 <style>
 body{{font-family:Segoe UI,Arial,sans-serif;background:#f8fafc;color:#0f172a;margin:0;padding:24px}}
